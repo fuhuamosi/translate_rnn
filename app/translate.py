@@ -28,7 +28,7 @@ tf.app.flags.DEFINE_integer("en_vocab_size", 40000, "English vocabulary size.")
 tf.app.flags.DEFINE_integer("fr_vocab_size", 40000, "French vocabulary size.")
 tf.app.flags.DEFINE_string("data_dir", "../dataset", "Data directory")
 tf.app.flags.DEFINE_string("train_dir", "../checkpoint", "Training directory.")
-tf.app.flags.DEFINE_integer("max_train_data_size", 0,
+tf.app.flags.DEFINE_integer("max_train_data_size", 100000,
                             "Limit on the size of training data (0: no limit).")
 tf.app.flags.DEFINE_integer("steps_per_checkpoint", 200,
                             "How many training steps to do per checkpoint.")
@@ -62,6 +62,7 @@ def read_data(source_path, target_path, max_size=None):
                         data_set[bucket_id].append([source_ids, target_ids])
                         break
                 source, target = source_file.readline(), target_file.readline()
+    print('Reading data finished', flush=True)
     return data_set
 
 
@@ -101,7 +102,7 @@ def train():
                                for i in range(len(train_bucket_sizes))]
 
         step_time, loss = 0.0, 0.0
-        current_step = 0
+        current_step = -1
         previous_losses = []
         while True:
             random_number_01 = np.random.random_sample()

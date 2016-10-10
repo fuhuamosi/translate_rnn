@@ -139,6 +139,7 @@ class Seq2SeqModel:
                 target_weights disagrees with bucket size for the specified bucket_id.
             """
         # Check if the sizes match.
+        print('Stepping...', flush=True)
         encoder_size, decoder_size = self.buckets[bucket_id]
         if len(encoder_inputs) != encoder_size:
             raise ValueError("Encoder length must be equal to the one in bucket,"
